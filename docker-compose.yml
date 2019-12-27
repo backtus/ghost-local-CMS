@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  server:
+    build: ghost
+    container_name: ghost
+    restart: unless-stopped
+    networks:
+      - web
+    ports:
+      - 3001:2368
+    volumes:
+      - c:/Users/Kent/backtus/blog:/var/lib/ghost/content
+    environment:
+      - NODE_ENV=development
+      - url=http://localhost:3001
+    env_file:
+      - secrets.env
+networks:
+  web:
+    external: true

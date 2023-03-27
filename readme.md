@@ -1,6 +1,6 @@
 # How to Setup a Ghost Blog using Docker on Windows and DigitalOcean Spaces
 
-This example shows how to set up a Ghost Blog to run locally in a Docker container on Windows 10 with a local mounted folder for text content and a Digital Ocean Space connected for images and other media content. The purpose of this is to create JAMStack pages with Gatsby.js
+This example shows how to set up a Ghost Blog to run locally in a Docker container on Windows 10 with a MariaDB for text content and a Digital Ocean Space connected for images and other media content. The purpose of this is to create JAMStack pages with Gatsby.js
 
 ## Getting Started
 
@@ -16,7 +16,7 @@ docker run hello-world
 
 ### Installing
 
-A **secrets.env** file has to be created at the same level as **docker-compose.yml** and it should contain the following (replace with your domain, secret keys and DO-region):
+A **secrets.env** file has to be created at the same level as **docker-compose.yml** (or even better in your container-orchestrator like Portainer) and it should contain the following (replace with your domain, secret keys and DO-region):
 
 ```
 storage__active=digitalocean
@@ -28,14 +28,15 @@ GHOST_STORAGE_ADAPTER_S3_ASSET_HOST=https://content.yourdomain.org
 GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX=images
 GHOST_STORAGE_ADAPTER_S3_ENDPOINT=ams1.digitaloceanspaces.com
 GHOST_STORAGE_ADAPTER_S3_ACL=public-read
+MYSQL_USER=ghost-dev-user
+MYSQL_PASSWORD=ghost-dev-pass
+MYSQL_DATABASE=ghost-dev-db
+GHOST_URL=http://your.ip.adr.ess:8043
+GHOST_PORT=8043
+ADMINER_PORT=8044
 ```
 
-The line in docker-compose.yml should be replaced with a folder in your own, local Users catalog. This is where your blog will be persisted when the Ghost instance are down for reboot or service.
-```
-- c:/Users/Kent/backtus/blog:/var/lib/ghost/content
-```
-
-Ghost 3.2 will be built and started with
+Ghost (currently 5.40) will be built and started with
 ```
 docker-compose up
 ```

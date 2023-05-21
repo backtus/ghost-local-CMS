@@ -2,13 +2,23 @@ version: '3.7'
 
 services:
   ghost:
-    image: ghost
+    image: s3ghost:5.49.0-alpine
     restart: unless-stopped
     ports:
       - ${GHOST_PORT}:2368
     depends_on: 
       - ghost-db
     environment:
+      storage__active: s3
+      storage__s3__accessKeyId: ${AWS_ACCESS_KEY_ID}
+      storage__s3__secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+      storage__s3__region: ${AWS_REGION}
+      storage__s3__bucket: ${AWS_BUCKET}
+      storage__s3__assetHost: ${AWS_ASSET_HOST}
+      storage__s3__pathPrefix: ${AWS_PATH_PREFIX}
+      storage__s3__endpoint: ${AWS_ENDPOINT}
+      storage__s3__forcePathStyle: ${AWS_FORCE_PATH_STYLE}
+      storage__s3__acl: ${AWS_ACL}
       database__client: mysql
       database__connection__host: ghost-db
       database__connection__database: ${MYSQL_DATABASE}
@@ -20,7 +30,7 @@ services:
       - ./ghost/content:/var/lib/ghost/content
 
   ghost-db:
-    image: mariadb:latest
+    image: mariadb:lts
     restart: always
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -31,7 +41,7 @@ services:
       - ghost-db:/var/lib/mysql
 
   adminer:
-    image: adminer:latest
+    image: adminer:4.8.1
     restart: unless-stopped
     ports:
       - ${ADMINER_PORT}:8080

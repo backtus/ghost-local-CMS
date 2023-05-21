@@ -19,15 +19,15 @@ docker run hello-world
 A **secrets.env** file has to be created at the same level as **docker-compose.yml** (or even better in your container-orchestrator like Portainer) and it should contain the following (replace with your domain, secret keys and DO-region):
 
 ```
-storage__active=digitalocean
 AWS_ACCESS_KEY_ID=[your Spaces access ID key created in DO|manage|API]
 AWS_SECRET_ACCESS_KEY=[your secret Spaces access keys]
-AWS_DEFAULT_REGION=ams1
-GHOST_STORAGE_ADAPTER_S3_PATH_BUCKET=content-yourdomain-org
-GHOST_STORAGE_ADAPTER_S3_ASSET_HOST=https://content.yourdomain.org
-GHOST_STORAGE_ADAPTER_S3_PATH_PREFIX=images
-GHOST_STORAGE_ADAPTER_S3_ENDPOINT=ams1.digitaloceanspaces.com
-GHOST_STORAGE_ADAPTER_S3_ACL=public-read
+AWS_REGION=ams1
+AWS_BUCKET=content-yourdomain-org
+AWS_ASSET_HOST=https://content.yourdomain.org
+AWS_PATH_PREFIX=images
+AWS_FORCE_PATH_STYLE=true
+AWS_ENDPOINT=ams1.digitaloceanspaces.com
+AWS_ACL=public-read
 MYSQL_USER=ghost-dev-user
 MYSQL_PASSWORD=ghost-dev-pass
 MYSQL_DATABASE=ghost-dev-db
